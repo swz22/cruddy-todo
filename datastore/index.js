@@ -17,18 +17,16 @@ exports.create = (text, callback) => {
     //can use a template literal of the filepath to the datastore to create the txt file
     //and each todo is being stored in a txt file
     //write file needs new file path, the text of the todo(which is passed in), and a cb if theres an error
-
-
-    fs.writeFile(`./datastore/data/${id}.txt`, text, (err) =>{
+    //path.join(exports.dataDir, `${id}.txt`)
+    fs.writeFile(path.join(exports.dataDir, `${id}.txt`), text, (err) => {
+    // fs.writeFile(`./datastore/${id}.txt`, text, (err) =>{
       if(err){
         throw("Error writing file: ",err) ;
       }else{
         callback(null, {id: id, text: text});
       }
     });
-
   });
-
 };
 
 exports.readAll = (callback) => {
