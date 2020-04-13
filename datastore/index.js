@@ -7,10 +7,28 @@ var items = {};
 
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
+//https://nodejs.org/en/knowledge/file-system/how-to-write-files-in-nodejs/
+//https://www.geeksforgeeks.org/node-js-path-join-method/
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
-  items[id] = text;
-  callback(null, { id, text });
+  //error first callback pattern
+  //each entry needs a new file, so ill use .writeFile
+  //get the next id
+  counter.getNextUniqueId((err,id) =>{
+    //can use a template literal of the filepath to the datastore to create the txt file
+    //and each todo is being stored in a txt file
+    //write file needs new file path, the text of the todo(which is passed in), and a cb if theres an error
+
+
+    fs.writeFile(`./datastore/data/${id}.txt`, text, (err) =>{
+      if(err){
+        throw("Error writing file: ",err) ;
+      }else{
+        callback(null, {id: id, text: text});
+      }
+    });
+
+  });
+
 };
 
 exports.readAll = (callback) => {
