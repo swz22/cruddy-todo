@@ -38,17 +38,34 @@ const writeCounter = (count, callback) => {
 
 // Public API
 
-exports.getNextUniqueId = (cb) => {
+exports.getNextUniqueId = (callback) => {
   /*
   counter = counter + 1;
   return zeroPaddedNumber(counter);
   */
   //read the current counter
-  readCounter((err,fileData) => {
-    //then increment it to get a unique id
-    writeCounter(fileData++,cb)
+  readCounter((err, fileData) => {
+    if(err){
 
+      console.log("Error: ",err);
+      callback(null,0);
+
+    }else{
+      writeCounter(fileData++, (err,count) =>{
+
+        if(err){
+
+          console.log("Error: ",err)
+
+        }else{
+
+          callback(count);
+
+        }
+      });
+    }
   })
+
 };
 
 
