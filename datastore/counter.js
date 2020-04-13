@@ -36,11 +36,19 @@ const writeCounter = (count, callback) => {
   });
 };
 
-// Public API - Fix this function //////////////////////////////////////////////
+// Public API
 
-exports.getNextUniqueId = () => {
+exports.getNextUniqueId = (cb) => {
+  /*
   counter = counter + 1;
   return zeroPaddedNumber(counter);
+  */
+  //read the current counter
+  readCounter((err,fileData) => {
+    //then increment it to get a unique id
+    writeCounter(fileData++,cb)
+
+  })
 };
 
 
