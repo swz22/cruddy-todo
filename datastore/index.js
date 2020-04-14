@@ -31,19 +31,30 @@ exports.create = (text, callback) => {
 
 
 
+// exports.readAll = (callback) => {
+//   // fs.readdir(path[, options], callback)
+//   let result = [];
+//   fs.readdir(exports.dataDir, (err, files) => {
+//     if (err) {
+//       throw("Error: Cannot read dir!")
+//     } else {
+//       for(let i = 0; i < files.length;i++){
+//         result.push({id: files[i].substring(0,5),text:files[i].substring(0,5)})
+//       }
+//   }
+//   callback(null, result);
+//   });
+// };
+
 exports.readAll = (callback) => {
   // fs.readdir(path[, options], callback)
-  let result = [];
-  fs.readdir(exports.dataDir, (err, files) => {
-    if (err) {
-      throw("Error: Cannot read dir!")
-    } else {
-      for(let i = 0; i < files.length;i++){
-        result.push({id: files[i].substring(0,5),text:files[i].substring(0,5)})
-      }
-
-  }
-  callback(null, result);
+  fs.readdir(exports.dataDir, (err,files) => {
+    var result = [];
+    _.map(files, (file) => {
+      var id = file.replace('.txt', ''); //removes the .txt from the end
+      result.push({id: id, text: id});
+    });
+    callback(null, result);
   });
 };
 
