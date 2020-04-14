@@ -40,7 +40,7 @@ const writeCounter = (count, callback) => {
 
 exports.getNextUniqueId = (callback) => {
   readCounter((err,count) =>{
-    //cant do count ++ for some reason. It was not correctly adding files to the data file, but count + 1 works as expected
+    //cant do count++ for some reason. It was not correctly adding files to the data file, but count + 1 works as expected
     writeCounter(count + 1,callback)
   })
 
