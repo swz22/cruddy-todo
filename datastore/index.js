@@ -89,12 +89,12 @@ exports.readOne = (id, callback) => {
 // };
 
 exports.update = (id, text, callback) => {
-  //possible call readOne instead
+  //possibly call readOne instead
   fs.readFile(path.join(exports.dataDir, `${id}.txt`), (err, fileData) => {
     if (err) {
       callback(err);
     } else {
-      //possible call create instead
+      //possibly call create instead
       fs.writeFile(path.join(exports.dataDir, `${id}.txt`), text, (err) => {
         if (err) {
           callback(err);
@@ -115,17 +115,34 @@ exports.update = (id, text, callback) => {
 //     callback(null, { id, text });
 //   }
 // };
+//https://www.tutorialkart.com/nodejs/delete-a-file-in-nodejs-using-node-fs/
 
 exports.delete = (id, callback) => {
-  var item = items[id];
-  delete items[id];
-  if (!item) {
-    // report an error if item not found
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback();
-  }
-};
+  fs.readFile(path.join(exports.dataDir, `${id}.txt`), (err) => {
+    if (err) {
+      callback(err);
+    } else {
+      fs.unlink(path.join(exports.dataDir, `${id}.txt`), (err) => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null);
+        }
+      });
+    }
+  });
+}
+
+// exports.delete = (id, callback) => {
+//   var item = items[id];
+//   delete items[id];
+//   if (!item) {
+//     // report an error if item not found
+//     callback(new Error(`No item with id: ${id}`));
+//   } else {
+//     callback();
+//   }
+// };
 
 // Config+Initialization code -- DO NOT MODIFY /////////////////////////////////
 
