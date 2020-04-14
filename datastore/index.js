@@ -30,7 +30,6 @@ exports.create = (text, callback) => {
 };
 
 
-
 // exports.readAll = (callback) => {
 //   // fs.readdir(path[, options], callback)
 //   let result = [];
@@ -48,23 +47,20 @@ exports.create = (text, callback) => {
 
 exports.readAll = (callback) => {
   // fs.readdir(path[, options], callback)
-  fs.readdir(exports.dataDir, (err,files) => {
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw("Error: Cannot read dir!")
+    } else {
     var result = [];
     _.map(files, (file) => {
       var id = file.replace('.txt', ''); //removes the .txt from the end
       result.push({id: id, text: id});
     });
+  }
     callback(null, result);
   });
 };
 
-//   var data = _.map(items, (text, id) => {
-//     return { id, text };
-//   });
-//   callback(null, data);
-// };
-
-//Original Code
 // exports.readAll = (callback) => {
 //   var data = _.map(items, (text, id) => {
 //     return { id, text };
@@ -72,15 +68,25 @@ exports.readAll = (callback) => {
 //   callback(null, data);
 // };
 
-
 exports.readOne = (id, callback) => {
-  var text = items[id];
-  if (!text) {
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback(null, { id, text });
+  //fs.readFile(path[, options], callback)
+  fs.readFile(path.join(exports.dataDir, `${id}.txt`), (err, fileData) => {
+    if (err) {
+      callback(("Error, cannot read file!"));
+    } else {
+      callback(null, { id: id, text: fileData.toString()});
   }
+});
 };
+
+// exports.readOne = (id, callback) => {
+//   var text = items[id];
+//   if (!text) {
+//     callback(new Error(`No item with id: ${id}`));
+//   } else {
+//     callback(null, { id, text });
+//   }
+// };
 
 exports.update = (id, text, callback) => {
   var item = items[id];
