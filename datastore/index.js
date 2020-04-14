@@ -45,6 +45,18 @@ exports.create = (text, callback) => {
 //   });
 // };
 
+// Attempted refactor using promises
+// exports.readAll = (callback) => {
+//   // fs.readdir(path[, options], callback)
+//   var filepromise = new Promise (function(resolve, reject) {
+//   fs.readdir(exports.dataDir, (err, files) => {
+//     if (err) {
+//       throw("Error: Cannot read dir!")
+//     } else {
+//       resolve(files);
+//     }
+//   });
+
 exports.readAll = (callback) => {
   // fs.readdir(path[, options], callback)
   fs.readdir(exports.dataDir, (err, files) => {
@@ -122,7 +134,7 @@ exports.delete = (id, callback) => {
     if (err) {
       callback(err);
     } else {
-      fs.unlink(path.join(exports.dataDir, `${id}.txt`), (err) => {
+    fs.unlink(path.join(exports.dataDir, `${id}.txt`), (err) => {
         if (err) {
           callback(err);
         } else {
