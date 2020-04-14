@@ -29,12 +29,38 @@ exports.create = (text, callback) => {
   });
 };
 
+
+
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  // fs.readdir(path[, options], callback)
+  let result = [];
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw("Error: Cannot read dir!")
+    } else {
+      for(let i = 0; i < files.length;i++){
+        result.push({id: files[i].substring(0,5),text:files[i].substring(0,5)})
+      }
+
+  }
+  callback(null, result);
   });
-  callback(null, data);
 };
+
+//   var data = _.map(items, (text, id) => {
+//     return { id, text };
+//   });
+//   callback(null, data);
+// };
+
+//Original Code
+// exports.readAll = (callback) => {
+//   var data = _.map(items, (text, id) => {
+//     return { id, text };
+//   });
+//   callback(null, data);
+// };
+
 
 exports.readOne = (id, callback) => {
   var text = items[id];
